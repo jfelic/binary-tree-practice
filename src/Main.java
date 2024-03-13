@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        Tree theTree - new Tree;
+        Tree theTree = new Tree();
 
         theTree.insert(50, 1.5);
         theTree.insert(25, 1.7);
