@@ -51,4 +51,30 @@ public class Tree {
     public void delete(int key) {
 
     }
+
+    // FIND MIN //
+    public Node minimum() {
+        Node current, last;
+        current = root;
+        last = null;
+
+        while (current != null) {
+            last = current; //remember node
+            current = current.leftChild;
+        }
+        return last;
+    } //end of min()
+
+    // FIND MAX //
+    public Node maximum() {
+        Node current, last;
+        current = root;
+        last = null;
+
+        while(current != null) {
+            last = current;
+            current = current.rightChild;
+        }
+        return last;
+    } //end of maximum()
 }
