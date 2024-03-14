@@ -4,7 +4,7 @@ public class Tree {
 
     // FIND //
     public Node find(int key) {
-        Node current = root; // create new Node to hold current Node
+        Node current = root; // current to hold current Node
 
         while(current.iData != key) { //while current is not key
             if(key < current.iData) //if current is less than key, go left
@@ -16,6 +16,24 @@ public class Tree {
         }
         return current;// found
     } // end of find()
+
+    // Slightly different find method //
+    public Node findNode(int key) {//Assuming non-empty tree
+        Node current = root;
+
+        while(current != null) {
+            if (current.iData == key)
+                break; // Found
+            else if (current.iData > key)
+                current = current.leftChild;
+            else
+                current = current.rightChild;
+
+            if (current == null)
+                return null; // Not found
+        }
+        return current; //found
+    }//end of findNode()
 
 
     // INSERT //
@@ -48,33 +66,80 @@ public class Tree {
         }
     }// end of insert()
 
-    public void delete(int key) {
+    public void insertNode(int key, double fData) {
+        Node newNode = new Node(key, fData);
 
+        if(root == null) //if empty tree
+            root = newNode;
+        else {
+            Node current = root;
+            Node last;
+
+            while (true) {
+                last = current;
+
+                if (current.iData > key) {
+                    current = current.leftChild;
+
+                    if (current == null) {
+                        last.leftChild = newNode;
+                        return;
+                    }
+                } else {
+                    current = current.rightChild;
+
+                    if (current == null) {
+                        last.rightChild = newNode;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
-    // FIND MIN //
-    public Node minimum() {
-        Node current, last;
+    public boolean delete(int key) { //delete not with given key
+        Node current, last;          //(assumes non-empty list)
         current = root;
-        last = null;
+        last = root;
+        boolean isLeftChild = true;
 
-        while (current != null) {
-            last = current; //remember node
-            current = current.leftChild;
-        }
-        return last;
-    } //end of min()
+        while(current.iData != key) {
+            last = current;
+            if(current.iData > key) { //go left?
+                isLeftChild = true;
+                current = current.leftChild;
+            } else { //or go right?
+                isLeftChild = false;
+                current = current.rightChild;
+            }
+            if(current == null)
+                return false; //didn't find it
+        } //end while
+    }
 
     // FIND MAX //
-    public Node maximum() {
-        Node current, last;
-        current = root;
-        last = null;
+    public Node findMax(){
+        Node current = root;
+        Node last = null;
 
         while(current != null) {
             last = current;
             current = current.rightChild;
         }
         return last;
-    } //end of maximum()
-}
+    } //end of findMax()
+
+    // FIND MIN //
+    public Node findMin() {
+        Node current, last;
+        current = root;
+        last = null;
+
+        while(current != null) {
+            last = current;
+            current = current.leftChild;
+        }
+
+        return last;
+    }
+} //end of findMin()

@@ -12,7 +12,7 @@ public class Node {
     }
 
     public void displayNode() {
-        System.out.println(this.iData + "" + this.fData);
+        System.out.println("(" + this.iData + " : " + this.fData + ")");
     }
 
     public int getKey() {
