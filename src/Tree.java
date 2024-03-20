@@ -17,24 +17,6 @@ public class Tree {
         return current;// found
     } // end of find()
 
-    // Slightly different find method //
-    public Node findNode(int key) {//Assuming non-empty tree
-        Node current = root;
-
-        while(current != null) {
-            if (current.iData == key)
-                break; // Found
-            else if (current.iData > key)
-                current = current.leftChild;
-            else
-                current = current.rightChild;
-
-            if (current == null)
-                return null; // Not found
-        }
-        return current; //found
-    }//end of findNode()
-
 
     // INSERT //
     public void insert(int id, double dd) {//id = key dd = fData
@@ -66,30 +48,28 @@ public class Tree {
         }
     }// end of insert()
 
-    public void insertNode(int key, double fData) {
-        Node newNode = new Node(key, fData);
+    public void insertNodePractice(int id, double fData) {
+        Node newNode = new Node(id, fData); //create new node to insert
 
-        if(root == null) //if empty tree
+        if(root == null) 
             root = newNode;
-        else {
+        else {      
             Node current = root;
-            Node last;
+            Node previous;
 
-            while (true) {
-                last = current;
+            while(true) {
+                previous = current;
 
-                if (current.iData > key) {
+                if(id < current.iData){
                     current = current.leftChild;
-
-                    if (current == null) {
-                        last.leftChild = newNode;
+                    if(current == null){
+                        previous.leftChild = newNode;
                         return;
                     }
                 } else {
                     current = current.rightChild;
-
-                    if (current == null) {
-                        last.rightChild = newNode;
+                    if(current == null) {
+                        previous.rightChild = newNode;
                         return;
                     }
                 }
@@ -97,25 +77,38 @@ public class Tree {
         }
     }
 
-    public boolean delete(int key) { //delete not with given key
-        Node current, last;          //(assumes non-empty list)
-        current = root;
-        last = root;
+
+    // DELETE //
+    public boolean delete(int key) {
+        Node current = root;
+        Node parent = root;
         boolean isLeftChild = true;
 
         while(current.iData != key) {
-            last = current;
-            if(current.iData > key) { //go left?
+            parent = current;
+
+            if(key < current.iData) { //go left
                 isLeftChild = true;
                 current = current.leftChild;
-            } else { //or go right?
+            } else { //go right
                 isLeftChild = false;
                 current = current.rightChild;
             }
-            if(current == null)
-                return false; //didn't find it
-        } //end while
-    }
+            if(current == null) {
+                return false; //not found
+            }
+
+            //If found and has no children
+            if(current.leftChild == null && current.rightChild ==null) {
+                if(current == root) 
+                    root = null;
+                else if(isLeftChild) 
+                    parent.leftChild = null;
+                else
+                    parent.rightChild = null;
+            }
+        }
+    }//end of delete()
 
     // FIND MAX //
     public Node findMax(){
